@@ -336,10 +336,10 @@ def euler_eksplisitt(dy, x_0, y_0, n, x_n, **kwargs):
 
     Returns
     -------
-    x, y: Array
-        numpy arrays for x og tilhørende y.
+    [x, y]: Array
+        numpy arrays for x og tilhørende y i et eget numpy array
     '''
-    from numpy import zeros, linspace
+    from numpy import zeros, linspace, array
     from matplotlib.pyplot import plot, xlabel, ylabel, show, legend
     
     impl = True if kwargs.get("implisitt") else False
@@ -366,7 +366,7 @@ def euler_eksplisitt(dy, x_0, y_0, n, x_n, **kwargs):
         legend()
         if kwargs.get("show"): show()
     
-    return x, y
+    return array([x, y])
 
 def euler_implisitt(dy, x_0, y_0, n, x_n, **kwargs):
     '''
