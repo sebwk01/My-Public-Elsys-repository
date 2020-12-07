@@ -577,6 +577,164 @@ def midtpunktmetoden(dy, x_0, y_0, n, x_n, **kwargs):
     
     return x, y
 
+def matrisemultiplikasjon(a,b):
+    '''
+    Bruker numpy til å regne ut produktet av matrisene
+
+    Parameters
+    ----------
+    a : List/Array/Matrix
+        Venstre matrise
+    b : List/Array/Matrix
+        Høyre matrise
+
+    Returns
+    -------
+    Array
+        Matrisenes produkt
+
+    '''
+    from numpy import array, matmul
+    a = array(a)
+    b = array(b)
+    return matmul(a,b)
+
+def prikkprodukt(a,b):
+    '''
+    Bruker numpy til å regne ut prikkproduktet av to vektorer
+
+    Parameters
+    ----------
+    a : List/Array
+        DESCRIPTION.
+    b : List/Array
+        DESCRIPTION.
+
+    Returns
+    -------
+    Array
+        prikkproduktet av arrayene
+
+    '''
+    from numpy import array, dot
+    a = array(a)
+    b = array(b)
+    return dot(a,b)
+    
+def determinant(a):
+    '''
+    Bruker numpy.linalg til å regne ut determinanten til matrisen a
+
+    Parameters
+    ----------
+    a : Array/Matrix
+
+    Returns
+    -------
+    Float
+        Determinanten til a
+
+    '''
+    from numpy.linalg import det
+    return det(a)
+
+def kryssprodukt(a,b):
+    '''
+    Bruker numpy til å regne ut kryssproduktet til vektorene a og b
+
+    Parameters
+    ----------
+    a : List/Array
+        Venstre vektor
+    b : List/Array
+        Høyre vektor
+
+    Returns
+    -------
+    Float
+        Kryssproduktet a x b
+
+    '''
+    from numpy import array, cross
+    a = array(a)
+    b = array(b)
+    return cross(a,b)
+
+def buelengde(df,a,b,n):
+    '''
+    Bruker trapesmetoden til å numerisk regne ut buelengden av en funksjon
+
+    Parameters
+    ----------
+    df : Funksjon
+        Den deriverte av funksjonen du ønsker buelengden til
+    a : Flaot
+        Startverdi for x
+    b : Float
+        Sluttverdi for x
+    n : Int
+        Oppløsning til trapesmetoden
+
+    Returns
+    -------
+    Float
+        Buelengden fra a til b på f
+
+    '''
+    from numpy import sqrt
+    f = lambda x: sqrt(1 + df(x)**2)
+    return trapesmetoden_riemann(f, a, b, n)
+
+def sylinderskall(f,a,b,n):
+    '''
+    Bruker trapesmetoden til å numerisk regne ut volumet av et sylinderskall med høyde f fra radius a til b
+
+    Parameters
+    ----------
+    f : Funksjon
+        Funksjonen for høyden
+    a : Float
+        Indre radius
+    b : Float
+        Ytre radius
+    n : Int
+        Oppløsning til trapesmetoden
+
+    Returns
+    -------
+    Float
+        Volumet av sylinderskallet
+
+    '''
+    from numpy import pi
+    g = lambda x: x * f(x)
+    return 2 * pi * trapesmetoden_riemann(g, a, b, n)
+
+def dreievolum(f,a,b,n):
+    '''
+    Bruker trapesmetoden til å numerisk regne ut volumet av en funksjon for radius rundt x-aksen fra a til b
+
+    Parameters
+    ----------
+    f : Funksjon
+        Funksjon for radius
+    a : Float
+        Startsverdi for x
+    b : Float
+        Sluttverdi for x
+    n : Int
+        Oppløsning til trapesmetoden
+
+    Returns
+    -------
+    Float
+        Volumet av dreieelementet
+
+    '''
+    from numpy import pi
+    g = lambda x: f(x)*f(x)
+    return pi * trapesmetoden_riemann(g, a, b, n)
+
 if __name__ == "__main__":
     print('''------
 Det skal nå kjøres en rekke tester for å vise at modulen fungerer.    
@@ -591,3 +749,10 @@ Det skal nå kjøres en rekke tester for å vise at modulen fungerer.
     dy = lambda x,y: x**2 + y**2
     trapesmetoden_difflikning(dy, 0, 0, 1000, 1)
     print("Sjekk plots for å se at Trapesmetodens (difflikning) graf ble plottet for y'=x^2+y^2")
+    print("[[1,2],[3,4]] ganger [[5,6],[7,8]] burde bli [[19,22],[43,50]], det ble:",matrisemultiplikasjon([[1,2],[3,4]], [[5,6],[7,8]]))
+    f = lambda x: x
+    print("Dreievolumet for f(x)=x fra 0 til 1 burde være 1/3 * pi, og det er:", dreievolum(f, 0, 1, 1000))
+    f = lambda x: -x + 1
+    print("Sylinderskallet for f(x)=-x + 1 fra 0 til 1 burde være 1/3 pi, og det er", sylinderskall(f, 0, 1, 1000))
+    df = lambda x: 2*x
+    print("Buelengden for f(x)=x^2 fra 0 til 1 burde være lengre enn 0.73, og kortere enn 2:", buelengde(df, 0, 1, 1000))
