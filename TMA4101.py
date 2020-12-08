@@ -6,7 +6,7 @@ men kan like så godt brukes til senere formål også.
 Den burde ligge under: C:\ProgramData\Anaconda3\Lib\TMA4101.py
 da er den tilgjengelig for import i Spyder overalt på maskinen.
 
-Versjon 03.12.2020
+Versjon 07.12.2020
 '''
 
 def newtons_metode(f, x_0, n, **kwargs):
